@@ -1401,7 +1401,15 @@ async function photoAll(){try{const db=await pdb();return await new Promise((res
 async function mediaAddBlob(rec){await photoPut(rec);if(useCloudMedia()){try{await cloudMedia.put(rec);}catch(e){console.warn('cloud media upload failed',e);}}}
 async function mediaGet(id){let rec=null;try{rec=await photoGet(id);}catch(e){}
   if(rec&&rec.blob)return rec;
-  if(useCloudMedia()){try{const m=await cloudMedia.meta(id);if(m){const blob=await cloudMedia.blob(id);const full={id,key:m.key||'',type:m.type||'image',ts:m.ts||0,dur:m.dur||0,blob};try{await photoPut(full);}catch(e){}return full;}}catch(e){}}
+  if(useCloudMedia()){
+    let m=null;try{m=await cloudMedia.meta(id);}catch(e){}
+    /* The blob path users/{uid}/media/{id} is deterministic, so we can pull it
+       straight from Storage even if the Firestore metadata doc never landed
+       (e.g. rules). Metadata, when present, gives us the correct type/dur. */
+    try{const blob=await cloudMedia.blob(id);
+      if(blob){const full={id,key:(m&&m.key)||(rec&&rec.key)||'',type:(m&&m.type)||(rec&&rec.type)||(blob.type&&blob.type.indexOf('video')>=0?'video':blob.type&&blob.type.indexOf('audio')>=0?'audio':'image'),ts:(m&&m.ts)||(rec&&rec.ts)||0,dur:(m&&m.dur)||(rec&&rec.dur)||0,blob};
+        try{await photoPut(full);}catch(e){}return full;}}catch(e){}
+  }
   return rec;}
 async function mediaDel(id){try{await photoDel(id);}catch(e){}if(useCloudMedia()){try{await cloudMedia.del(id);}catch(e){}}}
 async function mediaAll(){const local=await photoAll();if(!useCloudMedia())return local;
@@ -1723,7 +1731,7 @@ async function toggleVoice(d,b,c,btn){
     const blob=new Blob(_recChunks,{type:mt});
     if(blob.size>0&&secs>=1){const arr=wk.photos[d][b.id]=wk.photos[d][b.id]||[];
       if(arr.length>=12){toast('Up to 12 items per task');}
-      else{try{const id=uid()+uid();await photoPut({id,key:wkKey+'|'+d+'|'+b.id,blob,type:'audio',dur:secs,ts:Date.now()});arr.push(id);save();buzz(8);toast('Voice note saved');}catch(e){toast('Storage blocked this clip');}}}
+      else{try{const id=uid()+uid();await mediaAddBlob({id,key:wkKey+'|'+d+'|'+b.id,blob,type:'audio',dur:secs,ts:Date.now()});arr.push(id);save();buzz(8);toast('Voice note saved');}catch(e){toast('Storage blocked this clip');}}}
     else toast('Too short');
     renderPhotoStrip(c,d,b);renderDays();};
   _recStart=Date.now();try{_rec.start();}catch(e){stream.getTracks().forEach(t=>t.stop());_rec=null;toast('Could not start recording');return;}
