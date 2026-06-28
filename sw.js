@@ -1,5 +1,5 @@
 /* Ultra Human service worker — offline app shell */
-const CACHE = 'uh-shell-v1';
+const CACHE = 'uh-shell-v3';
 const ASSETS = [
   './',
   './index.html',

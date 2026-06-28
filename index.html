@@ -28,7 +28,7 @@
   *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
   body{margin:0;background:var(--paper);background-image:var(--bg-grad);background-attachment:fixed;color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5;transition:background-color .4s ease,color .3s ease}
   .panel,.metric,.tab,.dpill,.block,.btn,.tbtn,.chip,.ib,.gc,.lstat,.icard{transition:background-color .35s ease,border-color .25s ease,color .25s ease,box-shadow .25s ease,transform .15s ease}
-  .wrap{max-width:1080px;margin:0 auto;padding:20px 16px calc(env(safe-area-inset-bottom,0px) + 90px)}button{font-family:inherit}
+  .wrap{max-width:480px;margin:0 auto;padding:20px 16px calc(env(safe-area-inset-bottom,0px) + 90px)}button{font-family:inherit}
   .top{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:16px}
   .eyebrow{font:600 11px/1 Inter;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
   h1{font:700 27px/1.05 'Space Grotesk',sans-serif;margin:7px 0 0;letter-spacing:-.015em}
@@ -343,9 +343,9 @@
   .spage{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--paper);background-image:var(--bg-grad)}
   .subpage{transform:translateX(100%);transition:transform .3s cubic-bezier(.2,.9,.2,1);z-index:2;box-shadow:-12px 0 40px rgba(0,0,0,.2)}
   .subpage.on{transform:translateX(0)}
-  .shead{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line2);background:var(--paper);flex:0 0 auto;width:100%;max-width:640px;margin:0 auto;box-sizing:border-box}
+  .shead{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line2);background:var(--paper);flex:0 0 auto;width:100%;max-width:480px;margin:0 auto;box-sizing:border-box}
   .shead h3{font:700 18px 'Space Grotesk',sans-serif;margin:0;flex:1 1 auto}
-  .scontent{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:14px 18px 48px;width:100%;max-width:640px;margin:0 auto;box-sizing:border-box}
+  .scontent{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:14px 18px 48px;width:100%;max-width:480px;margin:0 auto;box-sizing:border-box}
   body.sheet-lock{overflow:hidden}
   .tsheadact{display:flex;gap:7px;flex:0 0 auto}
   .btn.small{padding:7px 12px;font-size:12px;border-radius:9px}
@@ -520,7 +520,7 @@
   .bt.active{color:var(--accent)}
   .bt.active svg{transform:translateY(-1px) scale(1.05)}
   .bt:active{transform:scale(.93)}
-  @media(min-width:900px){.bottombar{max-width:540px;left:50%;right:auto;transform:translateX(-50%);border:1px solid var(--line);border-bottom:none;border-radius:16px 16px 0 0}}
+  @media(min-width:520px){.bottombar{max-width:480px;left:50%;right:auto;transform:translateX(-50%);border:1px solid var(--line);border-bottom:none;border-radius:16px 16px 0 0}}
   /* Reminder block marker */
   .block.isrem{border-left:3px solid var(--accent)}
   .block.isrem .time::before{content:'🔔 ';font-size:10px}
@@ -554,9 +554,9 @@
   .mfield input,.mfield select,.mfield textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font:inherit;font-size:14.5px;background:var(--card);color:var(--ink)}
   .mfield textarea{resize:vertical;min-height:54px}
   .mfield input:focus,.mfield select:focus,.mfield textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
-  /* dark mode: let the OS render native date/time pickers (and their icons) with a light scheme so they're visible */
+  /* dark mode: let the OS render native date/time pickers with a light scheme so the calendar/clock icons stay clearly visible */
   body.dark input[type=date],body.dark input[type=time]{color-scheme:dark}
-  body.dark input[type=date]::-webkit-calendar-picker-indicator,body.dark input[type=time]::-webkit-calendar-picker-indicator{filter:invert(1) brightness(1.7);opacity:.85}
+  body.dark input[type=date]::-webkit-calendar-picker-indicator,body.dark input[type=time]::-webkit-calendar-picker-indicator{opacity:.9}
   .mrow{display:flex;gap:10px}.mrow .mfield{flex:1}
   .catpick{display:flex;flex-wrap:wrap;gap:7px}
   .catopt{border:1.5px solid var(--line);border-radius:10px;padding:7px 12px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--muted)}
@@ -658,6 +658,26 @@
   .tplcard:hover .tpl-ic{background:var(--card)}
   .tpl-tx b{display:block;font:600 14px Inter}
   .tpl-tx i{display:block;font-style:normal;font-size:11.5px;color:var(--muted);line-height:1.4;margin-top:2px}
+  /* ===== App lock (4-digit PIN) ===== */
+  .lockscreen{position:fixed;inset:0;z-index:280;display:none;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px calc(env(safe-area-inset-bottom,0px) + 30px);
+    background:radial-gradient(680px 680px at 50% 36%,rgba(90,160,224,.16) 0%,rgba(90,160,224,0) 58%),radial-gradient(900px 600px at 50% 38%,#16273a 0%,#101b27 55%,#0a121b 100%)}
+  .lockscreen.open{display:flex}
+  .lockmark{width:62px;height:62px;border-radius:18px;background:linear-gradient(145deg,#5aa0e0,#2f6db0);box-shadow:0 10px 34px rgba(47,109,176,.5),inset 0 1px 0 rgba(255,255,255,.4);display:grid;place-items:center;margin-bottom:18px}
+  .lockmark svg{width:33px;height:33px;stroke:#fff;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .locktitle{font:700 21px 'Space Grotesk',sans-serif;color:#eef3f8;text-align:center}
+  .locksub{font:500 13px Inter;color:#9fb4c6;text-align:center;margin-top:6px;min-height:18px}
+  .lockdots{display:flex;gap:15px;justify-content:center;margin:22px 0 28px}
+  .lockdots i{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.38);transition:.15s}
+  .lockdots i.on{background:#7fb6ec;border-color:#7fb6ec;box-shadow:0 0 10px rgba(127,182,236,.6)}
+  .lockdots.err{animation:lockShake .42s cubic-bezier(.36,.07,.19,.97)}
+  @keyframes lockShake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-8px)}40%,60%{transform:translateX(8px)}}
+  .lockpad{display:grid;grid-template-columns:repeat(3,72px);gap:16px;justify-content:center}
+  .lockkey{height:72px;border-radius:18px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;font:600 25px 'Space Grotesk',sans-serif;cursor:pointer;transition:.12s;-webkit-tap-highlight-color:transparent}
+  .lockkey:active{background:rgba(127,182,236,.28);transform:scale(.94)}
+  .lockkey.blank{visibility:hidden;pointer-events:none}
+  .lockkey.del{font-size:22px;background:none;border-color:transparent}
+  .lockcancel{margin-top:26px;background:none;border:none;color:rgba(255,255,255,.6);font:600 14px Inter;cursor:pointer;padding:8px 14px}
+  .lockcancel:active{color:#fff}
 </style>
 
 <div id="splash">
@@ -667,6 +687,15 @@
     <div class="sp-tag">Daily Tracker</div>
     <div class="sp-bar"><i></i></div>
   </div>
+</div>
+
+<div class="lockscreen" id="lockScreen">
+  <div class="lockmark"><svg viewBox="0 0 24 24"><path d="M4 14c2.5 0 3-7 4-7s1.5 11 2.6 11S12.5 5 14 5s1.5 9 2.4 9H20"></path></svg></div>
+  <div class="locktitle" id="lockTitle">Enter PIN</div>
+  <div class="locksub" id="lockSub"></div>
+  <div class="lockdots" id="lockDots"><i></i><i></i><i></i><i></i></div>
+  <div class="lockpad" id="lockPad"></div>
+  <button class="lockcancel" id="lockCancel">Cancel</button>
 </div>
 
 <canvas id="confetti" class="hide"></canvas>
@@ -710,6 +739,10 @@
         <div class="sgrouplabel">Reminders</div>
         <div class="srow"><div class="sl">Task reminders<small>A nudge as each task begins</small></div><button class="toggle" id="tgRemind"></button></div>
         <div class="srow"><div class="sl">Remind me<small>How early, before each task</small></div><div class="seg" id="segLead"><button data-l="0">On time</button><button data-l="5">5 min</button><button data-l="10">10 min</button></div></div>
+
+        <div class="sgrouplabel">Privacy</div>
+        <div class="srow"><div class="sl">App lock<small>Require a 4-digit PIN to open</small></div><button class="toggle" id="tgLock"></button></div>
+        <div class="srow" id="rowChangePin" style="display:none"><div class="sl">Change PIN<small>Set a new 4-digit code</small></div><button class="btn small" id="btnChangePin">Change</button></div>
 
         <div class="sfoot">Ultra Human · built to compound</div>
       </div>
@@ -1324,6 +1357,65 @@ async function loadPrefs(){try{const r=await store.get(PREFS_KEY);if(r)prefs=Obj
   if(!prefs.anchors)prefs.anchors=DEFAULT_ANCHORS.filter(a=>prefs.cats.some(c=>c.id===a.cat)).map(a=>({...a}));
   rebuildCat();}
 function savePrefs(){try{store.set(PREFS_KEY,JSON.stringify(prefs));}catch(e){}}
+
+/* ===== App lock (device-local 4-digit PIN) ===== */
+const LOCK_KEY='uh4:lock';
+let lockCfg={enabled:false,pin:''};
+let _lockState=null; // {mode,onok,opts,buf,first}
+function loadLock(){try{const r=lsGet(LOCK_KEY);if(r)lockCfg=Object.assign(lockCfg,JSON.parse(r));}catch(e){}}
+function saveLock(){try{lsSet(LOCK_KEY,JSON.stringify(lockCfg));}catch(e){}}
+function buildLockPad(){
+  const pad=document.getElementById('lockPad');if(!pad||pad.childElementCount)return;
+  const keys=['1','2','3','4','5','6','7','8','9','','0','del'];
+  keys.forEach(k=>{
+    const b=document.createElement('button');
+    if(k===''){b.className='lockkey blank';b.disabled=true;}
+    else if(k==='del'){b.className='lockkey del';b.innerHTML='⌫';b.onclick=()=>lockKey('del');}
+    else{b.className='lockkey';b.textContent=k;b.onclick=()=>lockKey(k);}
+    pad.appendChild(b);
+  });
+}
+function setLockDots(n){const d=document.getElementById('lockDots');if(!d)return;
+  Array.from(d.children).forEach((el,i)=>el.classList.toggle('on',i<n));}
+function lockShake(){const d=document.getElementById('lockDots');if(!d)return;
+  d.classList.add('err');setTimeout(()=>{d.classList.remove('err');},420);}
+function setLockText(t,sub){const a=document.getElementById('lockTitle'),b=document.getElementById('lockSub');
+  if(a)a.textContent=t;if(b)b.textContent=sub||'';}
+function lockKey(k){
+  if(!_lockState)return;
+  if(k==='del'){if(_lockState.buf.length)_lockState.buf=_lockState.buf.slice(0,-1);setLockDots(_lockState.buf.length);return;}
+  if(_lockState.buf.length>=4)return;
+  _lockState.buf+=k;setLockDots(_lockState.buf.length);
+  if(prefs.haptic&&navigator.vibrate)try{navigator.vibrate(8);}catch(e){}
+  if(_lockState.buf.length===4)setTimeout(lockSubmit,120);
+}
+function lockSubmit(){
+  if(!_lockState)return;const st=_lockState,entered=st.buf;
+  if(st.mode==='unlock'){
+    if(entered===lockCfg.pin){closeLock();if(st.onok)st.onok(true);}
+    else{lockShake();st.buf='';setTimeout(()=>setLockDots(0),420);}
+  }else if(st.mode==='set'){
+    st.first=entered;st.buf='';st.mode='confirm';setLockDots(0);setLockText('Confirm PIN','Re-enter to confirm');
+  }else if(st.mode==='confirm'){
+    if(entered===st.first){lockCfg.enabled=true;lockCfg.pin=entered;saveLock();closeLock();if(st.onok)st.onok(true);}
+    else{lockShake();st.buf='';st.first='';st.mode='set';setTimeout(()=>{setLockDots(0);setLockText('Set a 4-digit PIN','Choose a PIN to lock the app');},420);}
+  }else if(st.mode==='verify'){ // verify current pin (e.g. before disable / change)
+    if(entered===lockCfg.pin){closeLock();if(st.onok)st.onok(true);}
+    else{lockShake();st.buf='';setTimeout(()=>setLockDots(0),420);}
+  }
+}
+function openLock(mode,onok,opts){
+  opts=opts||{};buildLockPad();
+  _lockState={mode,onok,opts,buf:'',first:''};
+  const titles={unlock:['Enter PIN',''],verify:['Enter current PIN',''],set:['Set a 4-digit PIN','Choose a PIN to lock the app'],confirm:['Confirm PIN','Re-enter to confirm']};
+  const tt=titles[mode]||['Enter PIN',''];setLockText(opts.title||tt[0],opts.sub!=null?opts.sub:tt[1]);
+  setLockDots(0);
+  const cancel=document.getElementById('lockCancel');
+  if(opts.cancel===false){cancel.style.display='none';}
+  else{cancel.style.display='';cancel.onclick=()=>{closeLock();if(opts.oncancel)opts.oncancel();};}
+  const ls=document.getElementById('lockScreen');ls.classList.add('open');
+}
+function closeLock(){const ls=document.getElementById('lockScreen');if(ls)ls.classList.remove('open');_lockState=null;}
 function effectiveDark(){if(prefs.theme==='dark')return true;if(prefs.theme==='light')return false;return window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;}
 function lightenHex(hex,amt){const h=hex.replace('#','');const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);
   const mix=v=>Math.round(v+(255-v)*amt);const to2=v=>v.toString(16).padStart(2,'0');return '#'+to2(mix(r))+to2(mix(g))+to2(mix(b));}
@@ -2179,6 +2271,8 @@ function renderSettings(){
   document.getElementById('tgHaptic').classList.toggle('on',prefs.haptic);
   document.getElementById('tgConfetti').classList.toggle('on',prefs.confetti);
   document.getElementById('tgRemind').classList.toggle('on',prefs.reminders);
+  document.getElementById('tgLock').classList.toggle('on',lockCfg.enabled);
+  document.getElementById('rowChangePin').style.display=lockCfg.enabled?'':'none';
   document.querySelectorAll('#segLead button').forEach(b=>b.classList.toggle('on',+b.dataset.l===(prefs.remindLead||0)));
   const p=prefs.profile||{};const set=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
   set('pfName',p.name);set('pfDob',p.dob);set('pfHeight',p.height);set('pfWeight',p.weight);set('pfBlood',p.blood);set('pfLoc',p.loc);set('pfPhone',p.phone);set('pfEmail',p.email);set('pfMore',p.more);
@@ -2263,6 +2357,13 @@ document.getElementById('tgHaptic').onclick=()=>{prefs.haptic=!prefs.haptic;save
 document.getElementById('tgConfetti').onclick=()=>{prefs.confetti=!prefs.confetti;savePrefs();renderSettings();if(prefs.confetti)fireConfetti();};
 document.getElementById('tgRemind').onclick=async()=>{if(!prefs.reminders){if(window.Notification&&Notification.permission==='default'){try{await Notification.requestPermission();}catch(e){}}prefs.reminders=true;}else prefs.reminders=false;savePrefs();renderSettings();renderAgenda();scheduleReminders();toast(prefs.reminders?'Reminders on':'Reminders off');};
 document.querySelectorAll('#segLead button').forEach(b=>b.onclick=()=>{prefs.remindLead=+b.dataset.l;savePrefs();renderSettings();scheduleReminders();});
+document.getElementById('tgLock').onclick=()=>{
+  if(!lockCfg.enabled){openLock('set',()=>{renderSettings();toast('App lock on 🔒');});}
+  else{openLock('verify',()=>{lockCfg.enabled=false;lockCfg.pin='';saveLock();renderSettings();toast('App lock off');},{title:'Enter PIN to turn off',sub:''});}
+};
+document.getElementById('btnChangePin').onclick=()=>{
+  openLock('verify',()=>{openLock('set',()=>{renderSettings();toast('PIN updated');},{title:'Set a new PIN',sub:'Choose a new 4-digit PIN'});},{title:'Enter current PIN',sub:''});
+};
 document.getElementById('themeBtn').onclick=()=>{prefs.theme=effectiveDark()?'light':'dark';savePrefs();applyTheme();applyCatVars();repaint();toast(effectiveDark()?'Dark mode':'Light mode');};
 if(window.matchMedia)window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{if(prefs.theme==='auto')applyTheme();});
 
@@ -2344,6 +2445,7 @@ function snapToday(){offset=0;selDay=(TODAY>=START)?TODAY_IDX:Math.max(0,startId
 document.addEventListener('visibilitychange',()=>{
   if(document.visibilityState==='hidden'){_lastHidden=Date.now();return;}
   if(!appStarted)return;
+  if(lockCfg.enabled&&lockCfg.pin&&_lastHidden&&Date.now()-_lastHidden>60*1000&&!_lockState){openLock('unlock',null,{cancel:false});}
   if(new Date().toDateString()!==_bootDate){location.reload();return;}
   if(_lastHidden&&Date.now()-_lastHidden>30*60*1000)snapToday();
 });
@@ -2357,12 +2459,14 @@ async function refresh(){document.getElementById('editBtn').classList.toggle('ac
 
 let appStarted=false,localOnlyMode=false;
 async function startApp(){if(appStarted)return;appStarted=true;
+  loadLock();
   await loadPrefs();applyTheme();fillAfCat();setGreet();await resolveStart();await loadTpl();await migrateScale();
   offset=0;tab='today';editMode=false;openTaskId=null;taskPinned=false;
   selDay=(TODAY>=START)?TODAY_IDX:Math.max(0,startIdxInWeek(TODAY_MON));if(selDay<0)selDay=0;
   document.querySelectorAll('.bt').forEach(b=>b.classList.toggle('active',b.dataset.tab==='today'));
   ['today','week','month','reminders','progress'].forEach(x=>document.getElementById('tab-'+x).classList.toggle('hide',x!=='today'));
   await refresh();updateStoreTag();reveal('tab-'+tab);requestAnimationFrame(scrollDaysToActive);startCloudSync();
+  if(lockCfg.enabled&&lockCfg.pin)openLock('unlock',null,{cancel:false});
   if(!prefs.onboarded)showWelcome();else maybeShowInstall();}
 function signInGoogle(){const err=document.getElementById('authErr');err.textContent='';
   if(!FB){err.textContent='Sign-in is unavailable here. Open the hosted https link.';return;}
